@@ -1,8 +1,5 @@
 # Previsão de Cancelamento! Olist Store
-
-Completo?: Yes
-Data Criação: September 24, 2021 11:16 AM
-Tipo: Article
+![download](https://user-images.githubusercontent.com/85971408/134776393-773c03f7-06d4-4665-90d4-6ee6563dc14b.png)
 
 # Como prever quais clientes vão cancelar suas compras em um “e-commerce”?
 
@@ -190,7 +187,8 @@ Algumas colunas vieram com uma quantia de dados nulos, efetuei um processo difer
 
     Através do site [https://coggle.it](https://coggle.it/) foi feito um "brainstorm" onde imaginei diferentes agentes para o fato: "Cancelamento de Compra" além de imaginar os agentes, também elenquei suas caraterísticas, para formular hipóteses de oque poderia causar mais cancelamentos:
 
-    ![Cancelamento_de_Compra.png](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Cancelamento_de_Compra.png)
+   ![Cancelamento_de_Compra](https://user-images.githubusercontent.com/85971408/134775966-03be32b3-1f6b-4101-831c-aac923adf709.png)
+
 
     Com base nesse “brainstorm” foram postuladas diferentes hipóteses, por exemplo:
 
@@ -209,7 +207,7 @@ Resumo da fase de criação de variáveis, que servirão para o passo de anális
 
 A maioria das hipóteses pode ser verificada apenas com as variáveis já disponíveis. No entanto, algumas precisaram ser criadas.
 
-1. Tempo até aprovarem o pagamento!
+* Tempo até aprovarem o pagamento!
 
 ```python
 # subtraindo a data do pagamento da data da aprovação
@@ -219,7 +217,7 @@ df1['TEMPO_APROVACAO'] = df1['DATA_APROVACAO_PAGAMENTO'] - df1['DATA_PAGAMENTO']
 df1['TEMPO_APROVACAO'] = pd.to_timedelta(df1['TEMPO_APROVACAO'])
 ```
 
-1. Quantia de compras anteriores:
+* Quantia de compras anteriores:
 
 ```python
 # ordenando por data
@@ -229,25 +227,25 @@ df1 = df1.sort_values(by='DATA_PAGAMENTO')
 df1['COMPRAS_TOTAIS_ID'] = df1.groupby('ID_CLIENTE')['ID_CLIENTE'].cumcount() + 1
 ```
 
-1. Popularidade do vendedor:
+* Popularidade do vendedor:
 
 ```python
 df1['POPULARIDADE_VENDEDOR'] = df1.groupby('ID_VENDEDOR')['ID_VENDEDOR'].cumcount() + 1
 ```
 
-1. Vendedor inter-estadual:
+* Vendedor inter-estadual:
 
 ```python
 df1['DISTANTE'] = np.where(df1['ESTADO_VENDEDOR'] == df1['ESTADO_CLIENTE'], 0, 1)
 ```
 
-1. Popularidade da categoria do produto:
+* Popularidade da categoria do produto:
 
 ```python
 df1['POPULARIDADE_CATEGORIA'] = df1.groupby('NOME_CATEGORIA_PRODUTO').cumcount() +1
 ```
 
-1. Tempo Desde a última compra:
+* Tempo Desde a última compra:
 
 ```python
 # ordenando por id do cliente & data
@@ -308,7 +306,8 @@ Variáveis observadas sozinhas, histogramas e distribuições.
                  palette='rocket');
     ```
 
-    ![download (2).png](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/download_(2).png)
+  ![download_(2)](https://user-images.githubusercontent.com/85971408/134775998-7af8a425-4019-413e-b694-edd78b723e55.png)
+
 
     Variável resposta extremamente desequilibrada, necessário atenção para treinar os modelos.
 
@@ -330,7 +329,8 @@ Análise de como as variáveis se relacionam com a variável resposta, observand
                  palette='rocket');
     ```
 
-![download (1).png](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/download_(1).png)
+![download_(1)](https://user-images.githubusercontent.com/85971408/134776004-1b523598-0c6c-4eaf-9cd7-ee19e40d283d.png)
+
 
 O cartão de crédito foi mais usado que outros meios, no entanto, como isso se compara com o uso de diferentes métodos em outras categorias que não são canceladas?
 
@@ -373,7 +373,8 @@ sns.barplot(data=dfaux.loc[(dfaux['TARGET_STATUS_DA_ORDEM'] == 'canceled')
            palette='rocket');
 ```
 
-![download (5).png](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/download_(5).png)
+![download_(5)](https://user-images.githubusercontent.com/85971408/134776013-d7837899-c7f9-4998-9661-893e6b189a23.png)
+
 
 ---
 
@@ -383,7 +384,8 @@ sns.barplot(data=dfaux.loc[(dfaux['TARGET_STATUS_DA_ORDEM'] == 'canceled')
 df[['VALOR_COMPRA', 'TARGET_STATUS_DA_ORDEM']].groupby('TARGET_STATUS_DA_ORDEM').mean().reset_index()
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled.png)
+![Untitled](https://user-images.githubusercontent.com/85971408/134776028-47367f8d-8f24-4b03-919c-f6480aa51f85.png)
+
 
 A média de preço dos produtos cancelados é a maior, dando a entender que sim, no entanto, ordens ainda em processamento também mostram uma média de compras grande, portanto as ordens canceladas tem um maior preço aparente, mas que pode ser coincidência, vamos observar a diferença nas distribuições de ambas:
 
@@ -412,7 +414,8 @@ sns.histplot(data=(df.loc[(df['TARGET_STATUS_DA_ORDEM'] == 'delivered')
             palette ='rocket');
 ```
 
-![download (6).png](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/download_(6).png)
+![download_(6)](https://user-images.githubusercontent.com/85971408/134776033-e839ee4d-2e00-4b52-998c-0663ba31e2dd.png)
+
 
 Parece ter uma “pausa” no declínio da distribuição entre 400 e 500 R$ na classe “canceled”
 
@@ -426,7 +429,8 @@ Há uma leve propenção as compras da classe cancelada serem mais caras.
 df[['TEMPO_APROVACAO', 'TARGET_STATUS_DA_ORDEM']].groupby('TARGET_STATUS_DA_ORDEM').mean(numeric_only=False).reset_index()
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%201.png)
+![Untitled 1](https://user-images.githubusercontent.com/85971408/134776073-8fb8275c-f30f-414f-8f7d-5260990c36a7.png)
+
 
 Ordens canceladas apresentaram um tempo de espera superior em 2 horas comparadas a classe majoritária “delivered”.
 
@@ -437,7 +441,8 @@ sns.barplot(data=df_agrupado,
            palette='rocket');
 ```
 
-![download (7).png](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/download_(7).png)
+![download_(7)](https://user-images.githubusercontent.com/85971408/134776058-5833589a-a1b5-4e95-b80e-7650a0fd1a0e.png)
+
 
 Observe a diferença entre a classe cancelada e a classe majoritária, “delivered”.
 
@@ -461,7 +466,8 @@ dfaux2 = dfaux2.sort_values('CANCELAMENTO_PERCENTUAL', ascending=False)
 dfaux2.sort_values('CANCELAMENTO_PERCENTUAL', ascending=False)
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%202.png)
+![Untitled 2](https://user-images.githubusercontent.com/85971408/134776164-9eed818e-5b24-4e48-a868-cce9c819450d.png)
+
 
 Ao que aparenta sim, algumas cidades geram mais cancelamentos, porém também precisamos considerar a população da cidade, pois cidades pequenas podem ter um descolamento do percentual de cancelamento com pouco pedidos.
 
@@ -474,7 +480,8 @@ sns.barplot(data=dfaux2,
            palette='rocket');
 ```
 
-![download (9).png](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/download_(9).png)
+![download_(9)](https://user-images.githubusercontent.com/85971408/134776167-5b2531bb-44f7-4dcd-ab5c-ce62e9b78049.png)
+
 
 Observando a correlação entre o cancelamento percentual e o número de pedidos da cidade:
 
@@ -488,7 +495,8 @@ sns.lmplot(data=dfaux3,
          aspect=1*3);
 ```
 
-![download (10).png](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/download_(10).png)
+![download_(10)](https://user-images.githubusercontent.com/85971408/134776169-176dd98c-3393-4fe7-ab9a-68154703ba08.png)
+
 
 Existe uma correlação negativa entre a quantia de cancelamentos e a quantia de pedidos, oque mostra que muitas vezes o cancelamento percentual pode ser alto em algumas cidades pequenas devido ao fácil aumento do mesmo com poucos pedidos cancelados, no entanto, há um “ponto” fora dessa relação, onde temos a maior concentração de pedidos e um cancelamento percentual não tão baixo.
 
@@ -503,7 +511,7 @@ buble = px.scatter(dfaux3,
 buble.show()
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%203.png)
+![Untitled 3](https://user-images.githubusercontent.com/85971408/134776183-a1bca567-3e8b-4757-89b3-590c3eed1ac4.png)
 
 Apesar de num geral os cancelamentos diminuírem com cidades com mais pedidos, o São Paulo é um outlier á regra, tendo o maior número de pedidos e mesmo assim um grande cancelamento percentual.
 
@@ -549,7 +557,8 @@ sns.countplot(data=dfaux,
              palette='rocket');
 ```
 
-![download (11).png](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/download_(11).png)
+![download_(11)](https://user-images.githubusercontent.com/85971408/134776188-7599c76e-98f0-4701-9226-41b57e94fa71.png)
+
 
 ```python
 # df cancelados
@@ -561,7 +570,8 @@ sns.countplot(data=dfaux1,
              palette='rocket');
 ```
 
-![download (12).png](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/download_(12).png)
+![download_(12)](https://user-images.githubusercontent.com/85971408/134776197-61da1135-c9d5-4749-b4b7-0e9fe3c6e076.png)
+
 
 Vendedores impopulares são bem mais frequentes entre os pedidos cancelados.
 
@@ -600,7 +610,8 @@ sns.countplot(data=dfaux1,                # cancelado em cinza
              palette='Greys_r');
 ```
 
-![download (15).png](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/download_(15).png)
+![download_(15)](https://user-images.githubusercontent.com/85971408/134776209-d326a7fb-74c5-4a1c-beb4-7ab37c51c71d.png)
+
 
 Existe uma clara propensão às compras canceladas estarem atreladas à vendedores impopulares.
 
@@ -636,7 +647,8 @@ sns.countplot(data=df.loc[df['TARGET_STATUS_DA_ORDEM'] == 'canceled'],
             palette='OrRd_r');
 ```
 
-![download (16).png](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/download_(16).png)
+![download_(16)](https://user-images.githubusercontent.com/85971408/134776220-b8c81dc3-7532-4cc1-b4da-5e587c973dd3.png)
+
 
 Sim, é estranho, mas por alguma razão os compradores que compram produtos do mesmo estado que eles cancelam mais percentualmente, tendo em vista que no dataset geral a maiorias das compras efetuadas é inter estadual, mas não na classe cancelada.
 
@@ -648,7 +660,8 @@ Sim, é estranho, mas por alguma razão os compradores que compram produtos do m
 df[['TARGET_STATUS_DA_ORDEM', 'QUANTIA_ITEMS_NESSA_ORDEM']].groupby('TARGET_STATUS_DA_ORDEM').mean().reset_index()
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%204.png)
+![Untitled 4](https://user-images.githubusercontent.com/85971408/134776230-f6b4b6ff-672f-4c92-9e09-940a69c0a889.png)
+
 
 A classe "canceled" tem uma quantia ligeiramente maior de produtos por ordem.
 
@@ -672,7 +685,8 @@ sns.histplot(data=(df.loc[(df['TARGET_STATUS_DA_ORDEM'].sample(566) == 'delivere
 ax.set_xticks([1, 2, 3, 4, 5, 6, 7, 8]); # até 8 items por ordem
 ```
 
-![download (17).png](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/download_(17).png)
+![download_(17)](https://user-images.githubusercontent.com/85971408/134776240-e103578d-70a5-44ee-a985-39d6da6b6f4c.png)
+
 
 A classe de pedidos cancelados tem uma leve predominância em sua densidade em compras com 4 & 5 pedidos.
 
@@ -684,7 +698,8 @@ A classe de pedidos cancelados tem uma leve predominância em sua densidade em c
 df[['TARGET_STATUS_DA_ORDEM', 'QUANTIA_FOTOS_ANUNCIO']].groupby('TARGET_STATUS_DA_ORDEM').mean()
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%205.png)
+![Untitled 5](https://user-images.githubusercontent.com/85971408/134776242-c974b35c-ab93-4f43-ac03-d7a8d9caa165.png)
+
 
 A classe de pedidos cancelada aparenta ter um número bem menor de fotos na média.
 
@@ -698,7 +713,8 @@ hist = px.histogram(df.loc[(df['TARGET_STATUS_DA_ORDEM'] == 'delivered') | (df['
 hist.show()
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%206.png)
+![Untitled 6](https://user-images.githubusercontent.com/85971408/134776246-12d92745-37ed-41fb-ad96-2bf2449eb267.png)
+
 
 A distribuição das fotos mostra que entre pedidos cancelados a quantia de fotos realmente é mais baixa.
 
@@ -724,7 +740,8 @@ sns.countplot(data=df, # geral
              order=df_cancelados['NOME_CATEGORIA_PRODUTO'].value_counts().index);
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%207.png)
+![Untitled 7](https://user-images.githubusercontent.com/85971408/134776262-fde4ca4b-4afd-40a1-8d46-888412f8f1df.png)
+
 
 Sim, ordenando o histograma da classe cancelada e comparando com o geral é possível ver que algumas categorias são mais canceladas no “df_cancelado” que no dataframe original, com destaque para a categoria de “cama_mesa_banho”, a mais comprada, mas pouco cancelada.
 
@@ -759,7 +776,8 @@ Sim, ordenando o histograma da classe cancelada e comparando com o geral é poss
     violin.show()
     ```
 
-    ![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%208.png)
+   ![Untitled 8](https://user-images.githubusercontent.com/85971408/134776270-e9030d23-8019-4d85-885a-eb3c9e6fabb6.png)
+
 
     A classe “canceled” tem uma mediana menor além de uma concentração maior de classes com popularidades um pouco mais baixas.
 
@@ -773,8 +791,9 @@ Sim, ordenando o histograma da classe cancelada e comparando com o geral é poss
                  element="step",
                 kde=True);
     ```
+    
+    ![Untitled 9](https://user-images.githubusercontent.com/85971408/134776273-f5a66feb-0c30-4e7d-85ac-2e67d561bdf1.png)
 
-    ![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%209.png)
 
     Densidade da classe cancelada um pouco maior em produtos de categoria com popularidade mais baixa.
 
@@ -786,7 +805,7 @@ Sim, ordenando o histograma da classe cancelada e comparando com o geral é poss
 df[['DIA_DO_MES', 'TARGET_STATUS_DA_ORDEM']].groupby('TARGET_STATUS_DA_ORDEM').mean().reset_index()
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%2010.png)
+![Untitled 10](https://user-images.githubusercontent.com/85971408/134776284-3c0493b7-c94d-48c5-b8be-90879048e183.png)
 
 A média de dia do mês é ligeiramente maior na classe cancelados, vamos explorar melhor.
 
@@ -799,7 +818,8 @@ sns.boxenplot(data=df.loc[(df['TARGET_STATUS_DA_ORDEM'] == 'delivered') | (df['T
              x='TARGET_STATUS_DA_ORDEM');
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%2011.png)
+![Untitled 11](https://user-images.githubusercontent.com/85971408/134776292-5aa27e9e-f24b-4366-a1cc-d651d3270983.png)
+
 
 Parece haver uma diferença muito pequena entre as caixas do “boxenplot” dos pedidos cancelados, com caixas indicando uma densidade menor nos primeiros dias do mês e ligeiramente maior no final do mês.
 
@@ -822,7 +842,8 @@ sns.histplot(data=dfaux1.loc[(dfaux1['TARGET_STATUS_DA_ORDEM'] == 'delivered')
             bins=30);
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%2012.png)
+![Untitled 12](https://user-images.githubusercontent.com/85971408/134776300-9d5e644c-3c79-4de5-81e6-918eafc84f78.png)
+
 
 Sei que histogramas cumulativos são um pouco difíceis de entender, mas é possível notar uma leve diferença na velocidade da acumulação entre uma barra e outra, com a classe de pedidos cancelados tendo menos acúmulo de densidade após o dia 15, e com o acúmulo voltando mais próximo à regra geral ao final do mês.
 
@@ -843,7 +864,7 @@ sns.histplot(data=dfaux1.loc[(dfaux1['TARGET_STATUS_DA_ORDEM'] == 'delivered')
             bins=30);
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%2013.png)
+![Untitled 13](https://user-images.githubusercontent.com/85971408/134776301-0f4db3c7-d79e-4801-baf4-289415e56cdc.png)
 
 Leve diminuição da densidade entre os dias 15 & 20 nos pedidos cancelados.
 
@@ -855,7 +876,8 @@ Leve diminuição da densidade entre os dias 15 & 20 nos pedidos cancelados.
 df[['MES', 'TARGET_STATUS_DA_ORDEM']].groupby('TARGET_STATUS_DA_ORDEM').mean().reset_index()
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%2014.png)
+![Untitled 14](https://user-images.githubusercontent.com/85971408/134776305-1eff7e5c-6f65-4de8-ab6a-70413e77c9e2.png)
+
 
 Pedidos cancelados tendem a ser comprados antes da classe majoritárias de pedidos que são os entregues.
 
@@ -882,7 +904,8 @@ sns.histplot(data= df.sample(566).loc[dfaux1['TARGET_STATUS_DA_ORDEM'] != 'cance
              bins=12);
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%2015.png)
+![Untitled 15](https://user-images.githubusercontent.com/85971408/134776309-fb3673d8-b8ec-44c3-97da-762a903788de.png)
+
 
 Entre 566 exemplos aleatórios e o dataframe todo a diferença dos meses mais comuns de compra é pequena, sendo os meses com mais e menos vendas quase sempre os mesmos, já nos dados de compras cancelados temos diferenças entre os meses mais e menos comuns:
 
@@ -905,7 +928,8 @@ correlation = dfnum.corr(method='pearson')
 sns.heatmap(correlation, annot=True);
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%2016.png)
+![Untitled 16](https://user-images.githubusercontent.com/85971408/134776316-ff648179-868a-43fa-8066-eeb56ac396f0.png)
+
 
 Há uma correlação alta entre as variáveis que resumem o tamanho do produto, portanto simplificarei a altura, comprimento, & largura para volume.
 
@@ -985,7 +1009,8 @@ for i in dfcat.columns:
 sns.heatmap(data=ç, annot=True);
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%2017.png)
+![Untitled 17](https://user-images.githubusercontent.com/85971408/134776321-da7d4248-c2b7-4471-b5a8-9a92ffc13d5c.png)
+
 
 Nenhuma correlação muito alta fora a Cidade e o Estado (por motivos óbvios), ficarei apenas com a Cidade nos modelos de ML.
 
@@ -1337,7 +1362,8 @@ Resultados = pd.DataFrame.from_dict(Resultados)
 Resultados.sort_values(['XGBoost', 'RandomForest'], ascending=False)
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%2018.png)
+![Untitled 18](https://user-images.githubusercontent.com/85971408/134776336-d1bbd802-2062-4045-bf3c-2d61882f12e3.png)
+
 
 Após a validação dos acertos de ambos os modelos, foi feito o tunning de ambos, o modelo destaque foi a Random Forest novamente.
 
@@ -1403,7 +1429,8 @@ for rep in range(10):
 		print(f'{rep}/9')
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%2019.png)
+![Untitled 19](https://user-images.githubusercontent.com/85971408/134776345-698f9af0-2464-490f-924f-561554106853.png)
+
 
 **Auc Médio Tunado: 0.846**
 
@@ -1411,7 +1438,8 @@ for rep in range(10):
 
 Plotando resultados com e sem tunning de ambos os modelos:
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%2020.png)
+![Untitled 20](https://user-images.githubusercontent.com/85971408/134776348-964f46f0-7567-496a-b11e-3c43053e4295.png)
+
 
 É possível Notar que tanto a RandomForest quanto o XGBoost apresentaram melhora geral de resultados, com a Random Forest sendo melhor em ambas as fases, portanto esse será o modelo oficial.
 
@@ -1623,9 +1651,10 @@ fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 fig.show()
 ```
 
-![Untitled](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Untitled%2021.png)
+![Untitled 21](https://user-images.githubusercontent.com/85971408/134776356-c40e4cc8-4860-4bb4-8984-6daa9927264c.png)
 
-![Sem título.png](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Sem_ttulo.png)
+![Sem_ttulo](https://user-images.githubusercontent.com/85971408/134776365-4eef7eef-934c-4475-b85f-752420532d85.png)
+
 
 Incrível! Conseguimos fazer um pipeline em que o modelo pega dados como vieram desde o início, transforma, e plota as previsões no mapa com suas respectivas chances de cancelamento!
 
