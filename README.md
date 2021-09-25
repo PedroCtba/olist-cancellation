@@ -1,4 +1,5 @@
 # Previsão de Cancelamento! Olist Store
+![download](https://user-images.githubusercontent.com/85971408/134776393-773c03f7-06d4-4665-90d4-6ee6563dc14b.png)
 
 # Como prever quais clientes vão cancelar suas compras em um “e-commerce”?
 
