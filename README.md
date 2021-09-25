@@ -1,9 +1,5 @@
 # Previsão de Cancelamento! Olist Store
 
-Completo?: Yes
-Data Criação: September 24, 2021 11:16 AM
-Tipo: Article
-
 # Como prever quais clientes vão cancelar suas compras em um “e-commerce”?
 
 ---
@@ -190,7 +186,7 @@ Algumas colunas vieram com uma quantia de dados nulos, efetuei um processo difer
 
     Através do site [https://coggle.it](https://coggle.it/) foi feito um "brainstorm" onde imaginei diferentes agentes para o fato: "Cancelamento de Compra" além de imaginar os agentes, também elenquei suas caraterísticas, para formular hipóteses de oque poderia causar mais cancelamentos:
 
-    ![Cancelamento_de_Compra.png](Previsa%CC%83o%20de%20Cancelamento!%20Olist%20Store%20fabc0a1d0a09403cad9ae7439f586e63/Cancelamento_de_Compra.png)
+    ![Cancelamento_de_Compra.png](olist-cancellation/Previsão de Cancelamento! Olist Store fabc0a1d0a09403cad9ae7439f586e63/Cancelamento_de_Compra.png)
 
     Com base nesse “brainstorm” foram postuladas diferentes hipóteses, por exemplo:
 
